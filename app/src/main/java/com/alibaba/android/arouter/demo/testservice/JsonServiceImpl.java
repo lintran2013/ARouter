@@ -3,6 +3,7 @@ package com.alibaba.android.arouter.demo.testservice;
 import android.content.Context;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.annotation.RouteDoc;
 import com.alibaba.android.arouter.facade.service.SerializationService;
 import com.alibaba.fastjson.JSON;
 
@@ -15,6 +16,7 @@ import java.lang.reflect.Type;
  * @version 1.0
  * @since 2017/4/10 下午2:10
  */
+@RouteDoc(desc = "HelloServiceImpl", example = "HelloServiceImpl")
 @Route(path = "/service/json")
 public class JsonServiceImpl implements SerializationService {
     @Override

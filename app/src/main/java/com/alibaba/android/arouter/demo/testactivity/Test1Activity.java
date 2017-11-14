@@ -9,56 +9,77 @@ import com.alibaba.android.arouter.demo.testinject.TestObj;
 import com.alibaba.android.arouter.demo.testinject.TestParcelable;
 import com.alibaba.android.arouter.demo.testservice.HelloService;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.AutowiredDoc;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.annotation.RouteDoc;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.alibaba.android.arouter.utils.TextUtils;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * https://m.aliyun.com/test/activity1?name=老王&age=23&boy=true&high=180
+ *
  */
-@Route(path = "/test/activity1")
+@RouteDoc(desc = "Test activity for aroute", minVer = "7.0.0")
+@Route(path = "/test/activity1", extras = ARouterExtraFlags.FLAG_AFTER_LOGIN)
 public class Test1Activity extends AppCompatActivity {
-
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     String name = "jack";
 
+    // @AutowiredDoc(desc = "name", example = "na1me")
     @Autowired
     int age = 10;
 
+    /**
+     * @description height of a document
+     * @limit aa/bb/cc
+     * @version
+     */
+    // @AutowiredDoc(desc = "name", example = "na3me")
     @Autowired
     int height = 175;
 
+    // @AutowiredDoc(desc = "name", example = "n1ame")
     @Autowired(name = "boy")
     boolean girl;
 
+    // @AutowiredDoc(desc = "name", example = "name2")
     @Autowired
     char ch = 'A';
 
+    @AutowiredDoc(desc = "name", example = "name", minVer = "7.7.0")
     @Autowired
     float fl = 12.00f;
 
+    @AutowiredDoc(desc = "name", example = "name", minVer = "7.0.0")
     @Autowired
     double dou = 12.01d;
 
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     TestParcelable pac;
 
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     TestObj obj;
 
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     List<TestObj> objList;
 
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     Map<String, List<TestObj>> map;
 
     private long high;
 
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     String url;
 
+    @AutowiredDoc(desc = "name", example = "name")
     @Autowired
     HelloService helloService;
 
@@ -68,7 +89,6 @@ public class Test1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_test1);
 
         ARouter.getInstance().inject(this);
-
         // No more getter ...
         // name = getIntent().getStringExtra("name");
         // age = getIntent().getIntExtra("age", 0);

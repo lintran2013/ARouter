@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.demo.R;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.annotation.RouteDoc;
 
+// @RouteDoc(desc = "Test4Activity", example = "Test4Activity")
 @Route(path = "/test/activity4")
 public class Test4Activity extends AppCompatActivity {
 

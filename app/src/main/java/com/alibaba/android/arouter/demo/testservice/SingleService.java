@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.annotation.RouteDoc;
 import com.alibaba.android.arouter.facade.template.IProvider;
 
 /**
@@ -13,6 +14,7 @@ import com.alibaba.android.arouter.facade.template.IProvider;
  * @version 1.0
  * @since 2017/4/24 下午9:04
  */
+@RouteDoc(desc = "HelloServiceImpl", example = "HelloServiceImpl")
 @Route(path = "/service/single")
 public class SingleService implements IProvider {
 

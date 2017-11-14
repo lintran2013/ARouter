@@ -7,11 +7,14 @@ import android.widget.Toast;
 
 import com.alibaba.android.arouter.demo.R;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.AutowiredDoc;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.annotation.RouteDoc;
 
+@RouteDoc(desc = "Test2Activity", example = "Test2Activity")
 @Route(path = "/test/activity2")
 public class Test2Activity extends AppCompatActivity {
-
+    @AutowiredDoc(desc = "key1", example = "key1")
     @Autowired
     String key1;
 

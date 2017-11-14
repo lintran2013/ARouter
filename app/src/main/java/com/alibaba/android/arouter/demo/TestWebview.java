@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.facade.annotation.RouteDoc;
 
+@RouteDoc(desc = "TestWebview", example = "TestWebview")
 @Route(path = "/test/webview")
 public class TestWebview extends Activity {
 

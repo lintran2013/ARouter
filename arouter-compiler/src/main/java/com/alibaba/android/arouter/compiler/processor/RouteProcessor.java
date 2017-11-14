@@ -1,7 +1,9 @@
 package com.alibaba.android.arouter.compiler.processor;
 
+import com.alibaba.android.arouter.compiler.doc.DocGenerator;
 import com.alibaba.android.arouter.compiler.utils.Consts;
 import com.alibaba.android.arouter.compiler.utils.Logger;
+import com.alibaba.android.arouter.compiler.utils.TextUtils;
 import com.alibaba.android.arouter.compiler.utils.TypeUtils;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -44,6 +46,8 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
+import jdk.nashorn.internal.ir.IfNode;
+
 import static com.alibaba.android.arouter.compiler.utils.Consts.ACTIVITY;
 import static com.alibaba.android.arouter.compiler.utils.Consts.ANNOTATION_TYPE_AUTOWIRED;
 import static com.alibaba.android.arouter.compiler.utils.Consts.ANNOTATION_TYPE_ROUTE;
@@ -52,6 +56,7 @@ import static com.alibaba.android.arouter.compiler.utils.Consts.IPROVIDER_GROUP;
 import static com.alibaba.android.arouter.compiler.utils.Consts.IROUTE_GROUP;
 import static com.alibaba.android.arouter.compiler.utils.Consts.ITROUTE_ROOT;
 import static com.alibaba.android.arouter.compiler.utils.Consts.KEY_MODULE_NAME;
+import static com.alibaba.android.arouter.compiler.utils.Consts.KEY_STICK_MODE;
 import static com.alibaba.android.arouter.compiler.utils.Consts.METHOD_LOAD_INTO;
 import static com.alibaba.android.arouter.compiler.utils.Consts.NAME_OF_GROUP;
 import static com.alibaba.android.arouter.compiler.utils.Consts.NAME_OF_PROVIDER;
@@ -70,7 +75,7 @@ import static javax.lang.model.element.Modifier.PUBLIC;
  * @since 16/8/15 下午10:08
  */
 @AutoService(Processor.class)
-@SupportedOptions(KEY_MODULE_NAME)
+@SupportedOptions({KEY_MODULE_NAME, KEY_STICK_MODE})
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 @SupportedAnnotationTypes({ANNOTATION_TYPE_ROUTE, ANNOTATION_TYPE_AUTOWIRED})
 public class RouteProcessor extends AbstractProcessor {
@@ -82,7 +87,9 @@ public class RouteProcessor extends AbstractProcessor {
     private Elements elements;
     private TypeUtils typeUtils;
     private String moduleName = null;   // Module name, maybe its 'app' or others
+    private boolean stickMode = false;   // Module name, maybe its 'app' or others
     private TypeMirror iProvider = null;
+    private DocGenerator mDocGenerator;
 
     /**
      * Initializes the processor with the processing environment by
@@ -110,6 +117,14 @@ public class RouteProcessor extends AbstractProcessor {
         Map<String, String> options = processingEnv.getOptions();
         if (MapUtils.isNotEmpty(options)) {
             moduleName = options.get(KEY_MODULE_NAME);
+            String strKey = options.get(KEY_STICK_MODE);
+            if (!TextUtils.isEmpty(strKey)) {
+                try {
+                    stickMode = Boolean.valueOf(strKey);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         if (StringUtils.isNotEmpty(moduleName)) {
@@ -125,6 +140,8 @@ public class RouteProcessor extends AbstractProcessor {
                     "}\n");
             throw new RuntimeException("ARouter::Compiler >>> No module name, for more information, look at gradle log.");
         }
+
+        mDocGenerator = new DocGenerator(moduleName, stickMode, processingEnv);
 
         iProvider = elements.getTypeElement(Consts.IPROVIDER).asType();
 
@@ -145,6 +162,7 @@ public class RouteProcessor extends AbstractProcessor {
                 logger.info(">>> Found routes, start... <<<");
                 this.parseRoutes(routeElements);
 
+                mDocGenerator.generate(routeElements);
             } catch (Exception e) {
                 logger.error(e);
             }

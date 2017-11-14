@@ -58,9 +58,11 @@ public class Consts {
 
     // Options of processor
     public static final String KEY_MODULE_NAME = "moduleName";
+    public static final String KEY_STICK_MODE = "stickMode";
 
     // Annotation type
     public static final String ANNOTATION_TYPE_INTECEPTOR = FACADE_PACKAGE + ".annotation.Interceptor";
     public static final String ANNOTATION_TYPE_ROUTE = FACADE_PACKAGE + ".annotation.Route";
     public static final String ANNOTATION_TYPE_AUTOWIRED = FACADE_PACKAGE + ".annotation.Autowired";
+    public static final String ANNOTATION_TYPE_ROUTE_DOC = FACADE_PACKAGE + ".annotation.RouteDoc";
 }
